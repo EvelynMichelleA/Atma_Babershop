@@ -1,13 +1,33 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+import { kanit } from '@/app/ui/fonts';
+import Image from 'next/image';
 
-export default function AcmeLogo() {
+export default function AtmaBabershop() {
   return (
     <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
+      className={`${kanit.className} flex flex-row items-center leading-none text-white`}
     >
-      <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Acme</p>
+      <Image
+        src="/logo_hero.png"
+        width={30}
+        height={30}
+        className="hidden md:block mr-3"
+        alt="Screenshots of the dashboard project showing desktop version"
+      />
+      <Image
+        src="/logo_hero.png"
+        width={30}
+        height={30}
+        className="block md:hidden mr-3"
+        alt="Screenshot of the dashboard project showing mobile version"
+      />
+
+      <p
+        className={`${kanit.className} text-xl text-white md:text-3xl md:leading-normal`}
+      >
+        Atma Babershop
+
+      </p>
     </div>
+
   );
 }
