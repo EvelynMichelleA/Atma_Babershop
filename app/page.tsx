@@ -1,5 +1,5 @@
 import AcmeLogo from '@/app/ui/acme-logo';
-import { UserIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { kanit, anton } from '@/app/ui/fonts';
 import Image from 'next/image';
@@ -43,7 +43,17 @@ export default function Page() {
             className={`${anton.className} text-6xl text-white md:text-6xl md:leading-normal`}
           >
             Admin Dashboard
-          </p>
+           </p>
+          <Link
+          href="/dashboard"
+          >
+            <h1
+              className={`${kanit.className} antialiased flex text-white text-[20px] hover:text-teal-500`}
+            >
+              Go to Dashboard 
+              <ArrowRightCircleIcon className = 'w-6 mx-2'/>
+            </h1>
+          </Link>
           <header className="absolute top-5 right-5 mt-4 mr-4">
             <Link href="/login"
               className="text-white block md:hidden"
