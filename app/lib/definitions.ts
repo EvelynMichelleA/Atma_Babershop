@@ -38,6 +38,34 @@ export type LatestInvoice = {
   email: string;
   amount: string;
 };
+export type LatestReservations = {
+  id: string;
+  name: string;
+  image_url: string;
+  email: string;
+  amount: string;
+};
+
+export type LatestReservationsRaw = Omit<LatestReservations, 'amount'> & {
+  amount: number;
+};
+
+export type ReservationsTable = {
+  id: string;
+  customer_id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  date: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
+
+export type ReservationsFrom = {
+  id: string;
+  customer_id: string;
+  amount: string;
+};
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
