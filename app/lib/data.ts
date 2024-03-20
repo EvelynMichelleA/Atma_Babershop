@@ -8,7 +8,7 @@ import {
   User,
   Revenue,
   LatestReservationsRaw,
-  ReservationsFrom,
+  ReservationsForm,
   ReservationsTable
 } from './definitions';
 import { formatCurrency } from './utils';
@@ -40,7 +40,7 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   try {
     const data = await sql<LatestInvoiceRaw>`
-      SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
+      SELECT *
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       ORDER BY invoices.date DESC
@@ -58,6 +58,7 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
+  unstable_noStore()
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -257,7 +258,7 @@ export async function fetchFilteredReservations(
     const reservations = await sql<ReservationsTable>`
       SELECT
         reservations.id,
-        reservations.amount_reservations,
+        reservations.amount,
         reservations.date,
         customers.name,
         customers.email,

@@ -74,7 +74,7 @@ const customers = [
     id: '550e8400-e29b-41d4-a716-446655440000',
     name: 'Evelyn Michelle Aurelia',
     email: '221711704@students.uajy.ac.id',
-    image_url: '/customers/balazs-orban.png',
+    image_url: '/customers/emil-kowalski.png',
   },
 ];
 
@@ -170,10 +170,10 @@ const invoices = [
     date: '2022-06-05',
   },
   {
-    customer_id: customers[11].id,
-    amount: 2345,
+    customer_id: customers[10].id,
+    amount: 1000,
     status: 'paid',
-    date: '2024-06-05',
+    date: '2024-01-01',
   },
 ];
 
@@ -193,10 +193,10 @@ const revenue = [
 ];
 const reservations=[
   {
-    customer_id: customers[11].id,
-    amount: 2345,
+    customer_id: customers[10].id,
+    amount: 1000,
     status: 'paid',
-    date: '2024-04-03',
+    date: '2024-01-01',
   },
 ];
 module.exports = {

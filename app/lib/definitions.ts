@@ -61,10 +61,11 @@ export type ReservationsTable = {
   status: 'pending' | 'paid';
 };
 
-export type ReservationsFrom = {
+export type ReservationsForm = {
   id: string;
   customer_id: string;
   amount: string;
+  status: 'pending' | 'paid';
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
