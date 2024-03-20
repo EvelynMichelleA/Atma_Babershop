@@ -194,9 +194,10 @@ const revenue = [
 const reservations=[
   {
     customer_id: customers[10].id,
-    amount: 1000,
-    status: 'paid',
-    date: '2024-01-01',
+    email: customers[10].email,
+    amount: invoices[15].amount,
+    status: invoices[15].status,
+    date: invoices[15].date,
   },
 ];
 module.exports = {

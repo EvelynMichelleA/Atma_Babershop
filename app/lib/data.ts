@@ -175,6 +175,31 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
+export async function fetchReservationsById(id: string) {
+  try {
+    const data = await sql<ReservationsForm>`
+      SELECT
+        reservations.id,
+        reservations.customer_id,
+        reservations.amount,
+        reservations.status
+      FROM reservations
+      WHERE reservations.id = ${id};
+    `;
+
+    const reservations = data.rows.map((reservations) => ({
+      ...reservations,
+      // Convert amount from cents to dollars
+      amount: reservations.amount / 100,
+    }));
+
+    return reservations[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch reservations.');
+  }
+}
+
 export async function fetchCustomers() {
   try {
     const data = await sql<CustomerField>`
@@ -248,18 +273,19 @@ unstable_noStore()
   }
 }
 
-export async function fetchFilteredReservations(
+export async function fetchFilteredReservations( 
   query: string,
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
+  unstable_noStore()
   try {
     const reservations = await sql<ReservationsTable>`
       SELECT
         reservations.id,
         reservations.amount,
         reservations.date,
+        reservations.status,
         customers.name,
         customers.email,
         customers.image_url
@@ -269,7 +295,8 @@ export async function fetchFilteredReservations(
         customers.name ILIKE ${`%${query}%`} OR
         customers.email ILIKE ${`%${query}%`} OR
         reservations.amount::text ILIKE ${`%${query}%`} OR
-        reservations.date::text ILIKE ${`%${query}%`}
+        reservations.date::text ILIKE ${`%${query}%`} OR
+        reservations.status ILIKE ${`%${query}%`}
       ORDER BY reservations.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -285,12 +312,13 @@ export async function fetchReservationsPages(query: string) {
   try {
     const count = await sql`SELECT COUNT(*)
     FROM reservations
-    JOIN reservations ON invoices.customer_id = customers.id
+    JOIN reservations ON reservations.customer_id = customers.id
     WHERE
       customers.name ILIKE ${`%${query}%`} OR
       customers.email ILIKE ${`%${query}%`} OR
       reservations.amount::text ILIKE ${`%${query}%`} OR
-      reservations.date::text ILIKE ${`%${query}%`}
+      reservations.date::text ILIKE ${`%${query}%`} OR
+      reservations.status ILIKE ${`%${query}%`} 
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);

@@ -1,13 +1,9 @@
 import { fetchLatestReservations } from "@/app/lib/data";
 import LatestReservations from '@/app/ui/dashboard/latest-reservations';
 import ReservationsTable from '@/app/ui/reservations/table';
-// import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/reservations/table';
-// import { CreateResesrvations } from '@/app/ui/reservations/buttons';
 import { lusitana } from '@/app/ui/fonts';
-// import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-// import { Suspense } from 'react';
 import { CreateReservations } from '@/app/ui/reservations/buttons';
 
 export default function Page() {

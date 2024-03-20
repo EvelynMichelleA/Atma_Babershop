@@ -170,6 +170,7 @@ async function seedReservations(client) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         customer_id UUID NOT NULL,
         amount INT NOT NULL,
+        status VARCHAR(255) NOT NULL,
         date DATE NOT NULL
       );
     `;
@@ -180,8 +181,8 @@ async function seedReservations(client) {
     const insertedReservations = await Promise.all(
       reservations.map(async (reservation) => {
         return client.sql`
-          INSERT INTO reservations (customer_id, amount, date)
-          VALUES (${reservation.customer_id}, ${reservation.amount}, ${reservation.date});
+          INSERT INTO reservations (customer_id, amount, date, status)
+          VALUES (${reservation.customer_id}, ${reservation.amount}, ${reservation.date}, ${reservation.status});
         `;
       }),
     );

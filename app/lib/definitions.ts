@@ -64,7 +64,7 @@ export type ReservationsTable = {
 export type ReservationsForm = {
   id: string;
   customer_id: string;
-  amount: string;
+  amount: number;
   status: 'pending' | 'paid';
 };
 
