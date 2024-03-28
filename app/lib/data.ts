@@ -261,7 +261,7 @@ export async function fetchLatestReservations() {
   noStore();
   
   try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 4000));
 
     const data = await sql<LatestReservationsRaw>`
       SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id

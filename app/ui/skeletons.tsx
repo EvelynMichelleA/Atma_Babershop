@@ -53,16 +53,7 @@ export function CardsSkeleton() {
     </>
   );
 }
-// export function SearchsSkeleton() {
-//   return (
-//     <>
-//       <SearchSkeleton />
-//       <SearchSkeleton />
-//       <SearchSkeleton />
-//       <SearchSkeleton />
-//     </>
-//   );
-// }
+
 export function RevenueChartSkeleton() {
   return (
     <div className={`${shimmer} relative w-full overflow-hidden md:col-span-4`}>
@@ -148,7 +139,6 @@ export function LatestReservationsSkeleton() {
     <div
       className={`${shimmer} relative flex w-full flex-col overflow-hidden md:col-span-4`}
     >
-      <DashboardReservationsSekeleton />
       <div className="mb-4 h-8 w-36 rounded-md bg-gray-100" />
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-100 p-4">
         <div className="bg-white px-6">
@@ -180,9 +170,9 @@ export default function DashboardSkeleton() {
         <CardSkeleton />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <RevenueChartSkeleton />
         <LatestInvoicesSkeleton />
         <LatestReservationsSkeleton />
-        <RevenueChartSkeleton />
       </div>
     </>
   );
