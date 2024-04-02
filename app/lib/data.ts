@@ -319,16 +319,17 @@ export async function fetchFilteredReservations(
 
 export async function fetchReservationsPages(query: string) {
   noStore();
+  noStore();
   try {
     const count = await sql`SELECT COUNT(*)
     FROM reservations
-    JOIN reservations ON reservations.customer_id = customers.id
+    JOIN customers ON reservations.customer_id = customers.id
     WHERE
       customers.name ILIKE ${`%${query}%`} OR
       customers.email ILIKE ${`%${query}%`} OR
       reservations.amount::text ILIKE ${`%${query}%`} OR
       reservations.date::text ILIKE ${`%${query}%`} OR
-      reservations.status ILIKE ${`%${query}%`} 
+      reservations.status ILIKE ${`%${query}%`}
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);

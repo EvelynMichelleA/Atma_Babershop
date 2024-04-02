@@ -10,10 +10,21 @@ import CardWrapper from '@/app/ui/dashboard/cards';
 import { ReservationsSkeleton, ReservationsTableSkeleton, CardsSkeleton, DashboardReservationsSekeleton, SearchSekeletion, CreateSekeletion } from "@/app/ui/skeletons";
 import Loading from "./loading";
 import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
+import { fetchReservationsPages } from '@/app/lib/data';
+import Pagination from "@/app/ui/reservations/pagination";
 
+export default async function Page({
+    searchParams,
+}: {
+    searchParams?: {
+        query?: string;
+        page?: string;
+    };
+}) {
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
+    const totalPages = await fetchReservationsPages(query);
 
-export default async function Page() {
-    const latestReservations = await fetchLatestReservations();
     return (
         <div className="flex min-h-screen flex-col">
             <h1 className={`${lusitana.className} mb-4 text-2l md:text-2l`}>
@@ -29,11 +40,11 @@ export default async function Page() {
                     <CreateReservations />
                 </Suspense>
             </div>
-            <Suspense fallback={<ReservationsTableSkeleton />}>
-                <Table query="" currentPage={1} />
+            <Suspense key={query + currentPage} fallback={<ReservationsTableSkeleton />}>
+                <Table query={query} currentPage={currentPage} />
             </Suspense>
             <div className="mt-5 flex w-full justify-center">
-                {/* <Pagination totalPages={totalPages} /> */}
+                <Pagination totalPages={totalPages} />
             </div>
 
         </div>
