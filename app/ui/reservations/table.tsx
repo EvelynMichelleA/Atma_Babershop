@@ -12,7 +12,6 @@ export default async function ReservationsTable({
   currentPage: number;
 }) {
   const reservations = await fetchFilteredReservations(query, currentPage);
-  await new Promise((resolve) => setTimeout(resolve, 400));
   
   return (
     <div className="mt-6 flow-root">
