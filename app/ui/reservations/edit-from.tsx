@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { updateReservations } from '@/app/lib/actions';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default function EditReservationsForm({
   reservations,
@@ -17,8 +19,11 @@ export default function EditReservationsForm({
   reservations: ReservationsForm;
   customers: CustomerField[];
 }) {
+  const updateReservationsWithId = updateReservations.bind(null, reservations.id);
+  noStore();
+  
   return (
-    <form>
+    <form action={updateReservationsWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
