@@ -170,7 +170,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-
+    console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -196,7 +196,7 @@ export async function fetchReservationsById(id: string) {
       // Convert amount from cents to dollars
       amount: reservations.amount / 100,
     }));
-
+    console.log(reservations); // reservations is an empty array []
     return reservations[0];
   } catch (error) {
     console.error('Database Error:', error);
