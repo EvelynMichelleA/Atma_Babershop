@@ -1,4 +1,5 @@
 'use server';
+
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
@@ -13,6 +14,7 @@ const FormSchema = z.object({
 });
  
 const CreateReservations = FormSchema.omit({ id: true, date: true });
+const UpdateReservations = FormSchema.omit({ id: true, date: true }); 
 
 export async function createReservations(formData: FormData) {
     const { customerId, amount, status } = CreateReservations.parse({
@@ -31,11 +33,6 @@ export async function createReservations(formData: FormData) {
   revalidatePath('/dashboard/reservations');
   redirect('/dashboard/reservations');
 }
-
-// Use Zod to update the expected types
-const UpdateReservations = FormSchema.omit({ id: true, date: true });
- 
-// ...
  
 export async function updateReservations(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateReservations.parse({
@@ -55,6 +52,7 @@ export async function updateReservations(id: string, formData: FormData) {
   revalidatePath('/dashboard/reservations');
   redirect('/dashboard/reservations');
 }
+
 export async function deleteReservations(id: string) {
     await sql`DELETE FROM reservations WHERE id = ${id}`;
     revalidatePath('/dashboard/reservations');

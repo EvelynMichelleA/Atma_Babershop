@@ -3,7 +3,6 @@ import { UpdateReservations, DeleteReservations } from '@/app/ui/reservations/bu
 import ReservationsStatus from '@/app/ui/reservations/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredReservations } from '@/app/lib/data';
-import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function ReservationsTable({
   query,
@@ -13,7 +12,6 @@ export default async function ReservationsTable({
   currentPage: number;
 }) {
   const reservations = await fetchFilteredReservations(query, currentPage);
-  noStore();
   
   return (
     <div className="mt-6 flow-root">

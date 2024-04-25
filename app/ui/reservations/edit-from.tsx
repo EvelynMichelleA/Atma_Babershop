@@ -10,7 +10,6 @@ import {
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateReservations } from '@/app/lib/actions';
-import { unstable_noStore as noStore } from 'next/cache';
 
 export default function EditReservationsForm({
   reservations,
@@ -20,7 +19,6 @@ export default function EditReservationsForm({
   customers: CustomerField[];
 }) {
   const updateReservationsWithId = updateReservations.bind(null, reservations.id);
-  noStore();
   
   return (
     <form action={updateReservationsWithId}>
