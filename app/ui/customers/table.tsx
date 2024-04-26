@@ -5,18 +5,25 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
+import { fetchFilteredCustomers } from '@/app/lib/data';
+import { UpdateCustomers, DeleteCustomers } from '@/app/ui/customers/buttons';
 
 export default async function CustomersTable({
-  customers,
+  query,
+  currentPage,
 }: {
-  customers: FormattedCustomersTable[];
+  query: string,
+  currentPage: number,
+
 }) {
+  const customers = await fetchFilteredCustomers(query, currentPage);
+
   return (
     <div className="w-full">
-      <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
+      {/* <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
-      <Search placeholder="Search customers..." />
+      <Search placeholder="Search customers..." /> */}
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -58,17 +65,21 @@ export default async function CustomersTable({
                     </div>
                     <div className="pt-4 text-sm">
                       <p>{customer.total_invoices} invoices</p>
+                      <div className="flex justify-end gap-2">
+                        <UpdateCustomers id={customer.id} />
+                        <DeleteCustomers id={customer.id} />
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
+                <thead className="rounded-md bg-gray-50 text-left text-sm font-normal" >
                   <tr>
-                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6 w-60">
                       Name
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-3 py-5 font-medium w-60">
                       Email
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
@@ -77,12 +88,11 @@ export default async function CustomersTable({
                     <th scope="col" className="px-3 py-5 font-medium">
                       Total Pending
                     </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
+                    <th scope="col" className="px-4 py-5 font-medium w-60">
                       Total Paid
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="divide-y divide-gray-200 text-gray-900">
                   {customers.map((customer) => (
                     <tr key={customer.id} className="group">
@@ -109,6 +119,10 @@ export default async function CustomersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
+                        <div className="flex justify-end gap-2">
+                          <UpdateCustomers id={customer.id} />
+                          <DeleteCustomers id={customer.id} />
+                        </div>
                       </td>
                     </tr>
                   ))}

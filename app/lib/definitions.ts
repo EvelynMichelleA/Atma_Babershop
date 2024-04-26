@@ -70,7 +70,16 @@ export type ReservationsTable = {
   amount: number;
   status: 'pending' | 'paid';
 };
-
+export type CustomersTable = {
+  id: string;
+  customer_id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  date: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
 export type ReservationsForm = {
   id: string;
   customer_id: string;
@@ -117,6 +126,7 @@ export type FormattedCustomersTable = {
 export type CustomerField = {
   id: string;
   name: string;
+ 
 };
 
 export type InvoiceForm = {

@@ -11,12 +11,34 @@ const FormSchema = z.object({
   amount: z.coerce.number(),
   status: z.enum(['pending', 'paid']),
   date: z.string(),
+  image_url: z.string(),
+  email: z.string(),
+  name: z.string(),
 });
- 
+
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateReservations = FormSchema.omit({ id: true, date: true });
-const UpdateReservations = FormSchema.omit({ id: true, date: true }); 
+const UpdateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+const CreateCustomers = FormSchema.omit({ id: true, date: true });
+
+export async function createCustomers(formData: FormData) {
+  const { name, email, image_url,customerId, amount, status } = CreateCustomers.parse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    image_url: formData.get('image_url'),
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+ 
+  await sql`
+  INSERT INTO customers (name, email, image_url, amount, status)
+  VALUES ( ${name}, ${email}, ${image_url}, 0 , paid )
+`
+revalidatePath('/dashboard/customers');
+ redirect('/dashboard/customers');
+}
 
 export async function createInvoice(formData: FormData) {
   const { customerId, amount, status } = CreateInvoice.parse({
@@ -47,9 +69,9 @@ export async function updateInvoice(id: string, formData: FormData) {
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
+
   const amountInCents = amount * 100;
- 
+
   try {
     await sql`
         UPDATE invoices
@@ -76,10 +98,10 @@ export async function deleteInvoice(id: string) {
 }
 
 export async function createReservations(formData: FormData) {
-    const { customerId, amount, status } = CreateReservations.parse({
-        customerId: formData.get('customerId'),
-        amount: formData.get('amount'),
-        status: formData.get('status'),
+  const { customerId, amount, status } = CreateReservations.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
   });
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
@@ -98,16 +120,16 @@ export async function createReservations(formData: FormData) {
   revalidatePath('/dashboard/reservations');
   redirect('/dashboard/reservations');
 }
- 
+
 export async function updateReservations(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateReservations.parse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
+
   const amountInCents = amount * 100;
- 
+
   try {
     await sql`
         UPDATE reservations
@@ -117,7 +139,7 @@ export async function updateReservations(id: string, formData: FormData) {
   } catch (error) {
     return { message: 'Database Error: Failed to Update Reservations.' };
   }
- 
+
   revalidatePath('/dashboard/reservations');
   redirect('/dashboard/reservations');
 }

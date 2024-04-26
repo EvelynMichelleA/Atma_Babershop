@@ -47,7 +47,7 @@ export default async function ReservationsTable({
                     <p>{formatDateToLocal(reservations.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                  <UpdateReservations id={reservations.id} />
+                    <UpdateReservations id={reservations.id} />
                     <DeleteReservations id={reservations.id} />
                   </div>
                 </div>
