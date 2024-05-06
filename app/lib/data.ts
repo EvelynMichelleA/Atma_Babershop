@@ -9,7 +9,8 @@ import {
   Revenue,
   LatestReservationsRaw,
   ReservationsForm,
-  ReservationsTable
+  ReservationsTable,
+  CustomerForm
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -203,7 +204,31 @@ export async function fetchReservationsById(id: string) {
     throw new Error('Failed to fetch reservations.');
   }
 }
+export async function fetchCustomersById(id: string) {
+  noStore();
+  try {
+    const data = await sql<CustomerForm>`
+      SELECT
+        customers.id,
+        customers.name,
+        customers.email,
+        customers.image_url
+      FROM customers
+      WHERE customers.id = ${id};
+    `;
 
+    const customers = data.rows.map((customers) => ({
+      ...customers,
+      // Convert amount from cents to dollars
+      // amount: customers.amount / 100,
+    }));
+    console.log(customers); // Invoice is an empty array []
+    return customers[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customers.');
+  }
+}
 export async function fetchCustomers() {
   noStore();
   try {

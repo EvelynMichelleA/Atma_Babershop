@@ -1,7 +1,7 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-// import { deleteCustomers } from '@/app/lib/actions';
+import { deleteCustomers} from '@/app/lib/actions';
 
 
 export function CreateCustomers() {
@@ -19,7 +19,7 @@ export function CreateCustomers() {
 export function UpdateCustomers({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/invoices/${id}/edit`}
+      href={`/dashboard/customers/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
@@ -28,9 +28,9 @@ export function UpdateCustomers({ id }: { id: string }) {
 }
 
 export function DeleteCustomers({ id }: { id: string }) {
-  // const deleteCustomersWithId = deleteCustomers.bind(null, id);
+  const deleteCustomersWithId = deleteCustomers.bind(null, id);
   return (
-    // <form action={deleteCustomersWithId}>
+   <form action={deleteCustomersWithId}>
     <>
       <button className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
@@ -38,6 +38,6 @@ export function DeleteCustomers({ id }: { id: string }) {
       </button>
 
     </>
-    // </form>
+   </form>
   );
 }

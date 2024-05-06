@@ -76,10 +76,10 @@ export default async function CustomersTable({
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal" >
                   <tr>
-                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6 w-60">
+                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                       Name
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium w-60">
+                    <th scope="col" className="px-3 py-5 font-medium">
                       Email
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
@@ -88,7 +88,7 @@ export default async function CustomersTable({
                     <th scope="col" className="px-3 py-5 font-medium">
                       Total Pending
                     </th>
-                    <th scope="col" className="px-4 py-5 font-medium w-60">
+                    <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
                     </th>
                   </tr>
@@ -119,6 +119,8 @@ export default async function CustomersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
+                        </td>
+                        <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                         <div className="flex justify-end gap-2">
                           <UpdateCustomers id={customer.id} />
                           <DeleteCustomers id={customer.id} />

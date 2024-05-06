@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+// import { UpdateCustomers} from '../ui/customers/buttons';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -11,6 +12,9 @@ const FormSchema = z.object({
   amount: z.coerce.number(),
   status: z.enum(['pending', 'paid']),
   date: z.string(),
+});
+const FormSchemaCustomers = z.object({
+  id: z.string(),
   image_url: z.string(),
   email: z.string(),
   name: z.string(),
@@ -20,26 +24,70 @@ const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
-const CreateCustomers = FormSchema.omit({ id: true, date: true });
+const CreateCustomers = FormSchemaCustomers.omit( {id: true} );
+const UpdateCustomers = FormSchemaCustomers.omit({ id: true});
 
 export async function createCustomers(formData: FormData) {
-  const { name, email, image_url,customerId, amount, status } = CreateCustomers.parse({
+  const img = formData.get('image') ;
+  console.log(img);
+
+  let fileName = '';
+  if (img instanceof File) {
+    fileName =  '/customers/'+ img.name; 
+    console.log(fileName);
+  };
+  const { name, email, image_url} = CreateCustomers.parse({
     name: formData.get('name'),
     email: formData.get('email'),
-    image_url: formData.get('image_url'),
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
+    image_url: fileName,
   });
- 
+
   await sql`
-  INSERT INTO customers (name, email, image_url, amount, status)
-  VALUES ( ${name}, ${email}, ${image_url}, 0 , paid )
+  INSERT INTO customers (name, email, image_url)
+  VALUES ( ${name}, ${email}, ${image_url})
 `
-revalidatePath('/dashboard/customers');
- redirect('/dashboard/customers');
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
+}
+export async function updateCustomers(id: string, formData: FormData) {
+  const img = formData.get('image') ;
+  console.log(img);
+
+  let fileName = '';
+  if (img instanceof File) {
+    fileName =  '/customers/'+ img.name; 
+    console.log(fileName);
+  };
+
+  const { name, email, image_url } = UpdateCustomers.parse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    image_url: fileName,
+  });
+
+  try {
+    await sql`
+        UPDATE customers
+        SET name = ${name}, email = ${email}, image_url = ${image_url}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    return { message: 'Database Error: Failed to Update Customers.' };
+  }
+
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
 }
 
+export async function deleteCustomers(id: string) {
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customers');
+    return { message: 'Deleted Customers.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete customers.' };
+  }
+}
 export async function createInvoice(formData: FormData) {
   const { customerId, amount, status } = CreateInvoice.parse({
     customerId: formData.get('customerId'),
