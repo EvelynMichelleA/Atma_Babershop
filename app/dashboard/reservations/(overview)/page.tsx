@@ -12,6 +12,11 @@ import Loading from "./loading";
 import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 import { fetchReservationsPages } from '@/app/lib/data';
 import Pagination from "@/app/ui/reservations/pagination";
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Reservations',
+};
 
 export default async function Page({
     searchParams,

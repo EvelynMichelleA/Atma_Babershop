@@ -3,6 +3,11 @@ import { UserIcon, ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { kanit, anton } from '@/app/ui/fonts';
 import Image from 'next/image';
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 
 export default function Page() {
   return (
@@ -63,7 +68,7 @@ export default function Page() {
           </header>
           <header className="absolute top-5 right-5 mt-4 mr-4">
             <Link
-              href="/Login"
+              href="/login"
               className="flex items-center gap-5 self-start rounded-lg bg-white-0 border border-white px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-400 hidden md:block"
             >
               <span>Login</span>

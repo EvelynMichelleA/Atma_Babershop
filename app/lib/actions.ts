@@ -5,6 +5,8 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 // import { UpdateCustomers} from '../ui/customers/buttons';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -26,6 +28,25 @@ const UpdateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateCustomers = FormSchemaCustomers.omit( {id: true} );
 const UpdateCustomers = FormSchemaCustomers.omit({ id: true});
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
 
 export async function createCustomers(formData: FormData) {
   const img = formData.get('image') ;

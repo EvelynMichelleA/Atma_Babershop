@@ -2,6 +2,11 @@ import Form from '@/app/ui/reservations/edit-from';
 import Breadcrumbs from '@/app/ui/reservations/breadcrumbs';
 import { fetchReservationsById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Edit Reservations',
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;

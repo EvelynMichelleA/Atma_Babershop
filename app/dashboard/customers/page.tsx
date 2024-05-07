@@ -6,6 +6,11 @@ import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 // import { CustomersTableSkeleton } from '@/app/ui/skeletons';
 import { fetchCustomersPages } from '@/app/lib/data';
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Create Customers',
+};
 
 export default async function Page({
   searchParams,
